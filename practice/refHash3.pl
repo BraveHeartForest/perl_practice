@@ -7,7 +7,7 @@ binmode STDIN, ':encoding(cp932)';
 binmode STDOUT, ':encoding(cp932)';
 binmode STDERR, ':encoding(cp932)';
 
-my $infos = {};
+my $infos = {}; #$infosは連想配列のリファレンス？
 while (my $line = <>) {
     chomp $line;    #改行を削除
 
@@ -17,7 +17,7 @@ while (my $line = <>) {
 
     # (2)各時刻のデータを保存するための配列のリファレンス
     $infos->{$time} ||= [];
-    # $infos->{$time}が偽の時に []を代入する？
+    # $infos->{$time}が偽の時（undef)に []を設定する。
 
     # (3)件数の合計
     $infos->{$time}[0]++;
