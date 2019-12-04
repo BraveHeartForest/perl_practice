@@ -14,6 +14,7 @@ while (my $line = <>) {
     # (1)時刻と応答時間の取得
     my ($time, $res_time) = split(',', $line);
     # $time,$res_timeはそれぞれ$lineを "," で分割した内容。スカラー値のはず。
+    # split の返り値は、文字列を要素とするリスト。
 
     # (2)各時刻のデータを保存するための配列のリファレンス
     $infos->{$time} ||= [];
