@@ -1,0 +1,2 @@
+Ken,Japan,19
+Taro,USA,45

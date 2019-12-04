@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>名簿データベース</title>
+    <style type="text/css">
+        body,
+        td,
+        th {
+            font-size: 90%;
+            font-family: Verdana, Helvetica, Arial;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 1em 0;
+        }
+
+        td,
+        th {
+            border: 1px solid #555;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="./member1.cgi" method="GET">
+        <table>
+            <tr>
+                <td>ソート</td>
+                <td>
+                    <input type="radio" name="sort" value="1" checked="checked">ID順（昇順）
+                    <input type="radio" name="sort" value="2">ID順（降順）
+                </td>
+            </tr>
+            <tr>
+                <td>男女別</td>
+                <td>
+                    <input type="radio" name="sex" value="0" checked="checked">両方
+                    <input type="radio" name="sex" value="1">男性のみ
+                    <input type="radio" name="sex" value="2">女性のみ
+                </td>
+            </tr>
+            <tr>
+                <td>キーワード</td>
+                <td><input type="text" name="word" size="25"></td>
+            </tr>
+        </table>
+        <input type="submit" value="検索">
+    </form>
+
+</body>
+
+</html>
