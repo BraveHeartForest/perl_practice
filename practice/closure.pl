@@ -23,21 +23,21 @@ print "1: もっともシンプルなクロージャ\n";
 print var(), "\n";  # 5
 # print "$var\n"; #これを有効にするとエラーで動かなくなる。
 
-# タイマーを生成する。
-print "1: 関数ジェネレータでクロージャを生成する( タイマー )。\n"; 
-my $timer1 = create_timer(); # タイマー1開始；戻り値は自作関数へのリファレンスです。
-sleep 1; 
-# 1秒後にもうひとつタイマーを生成
-my $timer2 = create_timer(); # タイマー2開始
+# # タイマーを生成する。
+# print "1: 関数ジェネレータでクロージャを生成する( タイマー )。\n"; 
+# my $timer1 = create_timer(); # タイマー1開始；戻り値は自作関数へのリファレンスです。
+# sleep 1; 
+# # 1秒後にもうひとつタイマーを生成
+# my $timer2 = create_timer(); # タイマー2開始
 
-# 1秒止まる
-sleep 1; 
+# # 1秒止まる
+# sleep 1; 
 
-print '$timer1 による経過秒: '; 
-print $timer1->(), "\n";    # タイマー1ストップ：結果＝2
+# print '$timer1 による経過秒: '; 
+# print $timer1->(), "\n";    # タイマー1ストップ：結果＝2
 
-print '$timer2 による経過秒: '; 
-print $timer2->(), "\n\n";  # タイマー2ストップ：結果＝1
+# print '$timer2 による経過秒: '; 
+# print $timer2->(), "\n\n";  # タイマー2ストップ：結果＝1
 
 
 # 経過時刻を知るクロージャを生成する「関数ジェネレータ」
@@ -87,53 +87,55 @@ sub create_sign_checker {
         }
     }
 }
+print "\n";
 
-package Counter;
-sub new{
-    my $class = shift;
-    my $self = {};
-    $self->{cnt} = shift;
-    bless $self, $class;
+package Counter;    # perlでのクラスの実装方法
+sub new {
+    my $class = shift;  # shift @_の略。第一引数を代入する。
+    my $self = {};  # 連想配列のリファレンスであることを宣言。
+    $self->{cnt} = shift;   # $selfのcnt=>第二引数、という結果を齎すと思われたが、どうも違うらしい。第一引数が代入されている模様。
+    bless $self, $class;    # オブジェクトの生成。
 }
 
-sub add_count{
-    my $self = shift;
-    $self->{cnt}++;
+sub add_count {
+    my $self = shift;   # 引数を与えられていないが、&new で設定した$selfが代入されている模様。
+    $self->{cnt}++; # $self->{cnt}の値に+1する。
 }
 
-sub count{
-    my $self = shift;
-    return $self->{cnt};
+sub count {
+    my $self = shift;   # 引数を与えられていないが、&new で設定した$selfが代入されている模様。
+    return $self->{cnt};    # 無名ハッシュリファレンスの cnt キーの値を返す。
 }
 
 package main;
-my $cnt = Counter->new(10);
+my $cnt = Counter->new(10); # クラスCounterを生成。初期値として10を与える。
 
 print "1: クラスによるカウンターの実装\n";
-print "カウント前:", $cnt->count, "\n";
-$cnt->add_count;
+print "カウント前:", $cnt->count, "\n"; # $cnt->countでカウンターの値が表示される。
+$cnt->add_count;    # add_countによってカウンターが+1される。
 print "カウント後:", $cnt->count, "\n\n";
 
 # クロージャ
-sub make_counter{
-    my $self = {};
+sub make_counter {
+    my $self = {};  # 無名ハッシュリファレンスであることを宣言。
     $self->{cnt} = shift;
 
     # クロージャでは、サブルーチンへのリファレンスを使ってメソッドを実装する。
     my $funcs = {}; 
-    $funcs->{add_count} = sub {
+    $funcs->{add_count} = sub { # 無名サブルーチンを定義。
         $self->{cnt}++;
     };
 
-    $funcs->{count} = sub {
+    $funcs->{count} = sub { # 無名サブルーチンを定義。
         return $self->{cnt};
     };
     return $funcs;
 }
 
-my $cnt = make_counter(10);
+my $cnt = make_counter(-10);
 
 print "2: クロージャによるカウンターの実装\n";
 print "カウント前:" . $cnt->{count}->() . "\n"; 
 $cnt->{add_count}->();
 print "カウント後:" . $cnt->{count}->() . "\n";
+
